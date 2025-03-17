@@ -1,5 +1,9 @@
-data "aws_cloudfront_cache_policy" "caching_optimized" {
+data "aws_cloudfront_cache_policy" "cloudfront_cache_policy" {
   name = "Managed-CachingOptimized"
+}
+
+data "aws_cloudfront_response_headers_policy" "cloudfront_response_headers_policy" {
+  name = "Managed-SecurityHeadersPolicy"
 }
 
 resource "aws_cloudfront_origin_access_control" "cloudfront_origin_access_control" {
@@ -24,12 +28,13 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "s3"
-    cache_policy_id        = data.aws_cloudfront_cache_policy.caching_optimized.id
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods            = ["GET", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    target_origin_id           = "s3"
+    cache_policy_id            = data.aws_cloudfront_cache_policy.cloudfront_cache_policy.id
+    response_headers_policy_id = data.aws_cloudfront_response_headers_policy.cloudfront_response_headers_policy.id
+    compress                   = true
+    viewer_protocol_policy     = "redirect-to-https"
 
     function_association {
       event_type   = "viewer-request"
