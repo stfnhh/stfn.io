@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url('OpenSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('OpenSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: 'lineicons';
+  src: url('lineicons.eot');
+  src: url('lineicons.eot') format('embedded-opentype'),
+       url('lineicons.woff2') format('woff2'),
+       url('lineicons.woff') format('woff'),
+       url('lineicons.ttf') format('truetype'),
+       url('lineicons.svg') format('svg');
+}

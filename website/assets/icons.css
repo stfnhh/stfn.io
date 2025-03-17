@@ -1,0 +1,28 @@
+
+/* base class */
+.icon {
+  display: inline-block;
+  font: normal normal normal 1em/1 'lineicons';
+  color: inherit;
+  flex-shrink: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* icons */
+.icon-github-outlined-rounded::before {
+  content: "\ea01";
+}
+
+.icon-linkedin-outlined-rounded::before {
+  content: "\ea02";
+}
+
+.icon-stackoverflow-outlined-rounded::before {
+  content: "\ea03";
+}
+
+html {
+    visibility: visible;
+    opacity: 1;
+}

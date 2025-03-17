@@ -1,0 +1,51 @@
+name: Website CICD
+
+on:
+  push:
+    paths:
+      - website/**
+      - .github/workflows/website.yaml
+  pull_request:
+    paths:
+      - website/**
+      - .github/workflows/website.yaml
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: website
+
+env:
+  AWS_DEFAULT_REGION: us-east-1
+
+jobs:
+  deploy:
+    name: 🚀 Deploy
+    if: contains(fromJson('["main"]'), github.ref_name)
+    environment: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 cp ./ s3://${{ vars.S3_BUCKET }} --recursive
+
+      - name: Create CloudFront Invalidation
+        run: |
+          aws configure set preview.cloudfront true
+          aws cloudfront create-invalidation --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
